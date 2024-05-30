@@ -2,7 +2,6 @@ import pandas as pd
 import requests
 
 def fetch_data(address):
-    # Replace with your Etherscan API key
     api_key = 'JQMQPR9JN9NHN47PFIJHYRX57Z4BSFEPCB'
     url = f'https://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock=0&endblock=99999999&sort=asc&apikey={api_key}'
 
