@@ -1,6 +1,9 @@
 import pandas as pd
 import requests
 import matplotlib.pyplot as plt
+from colorama import *
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def fetch_data(address):
     # Replace with your Etherscan API key
@@ -20,10 +23,13 @@ def fetch_data(address):
     # Convert the transactions list to a Pandas DataFrame
     df = pd.DataFrame(transactions)
 
-    # Display the columns to ensure 'value' is present
+
+    # Check and display the columns to ensure 'value' is present
+    print(Fore.BLUE + "\nChecking and displaying the columns to ensure 'value' is present\n" + Style.RESET_ALL)
     print(df.columns)
 
     # Display the first few rows to inspect the data
+    print(Fore.BLUE + "\nDisplaying the first few rows to inspect the data\n" + Style.RESET_ALL)
     print(df.head())
 
     # Convert relevant columns to numeric types
@@ -33,7 +39,6 @@ def fetch_data(address):
     # Convert 'value' column to numeric, invalid parsing will be set as NaN
     df['value'] = pd.to_numeric(df['value'], errors='coerce')
     df['value'].fillna(0, inplace=True)  # Handle NaN values
-
     df['gas'] = pd.to_numeric(df['gas'], errors='coerce')
     df['gasPrice'] = pd.to_numeric(df['gasPrice'], errors='coerce')
     df['gasUsed'] = pd.to_numeric(df['gasUsed'], errors='coerce')
@@ -42,15 +47,31 @@ def fetch_data(address):
     df.fillna(0, inplace=True)
 
     # Display the updated DataFrame structure
+    print(Fore.BLUE + "\nDisplaying the updated DataFrame structure\n" + Style.RESET_ALL)
     print(df.dtypes)
+    print("\n")
     print(df.describe())
+ 
+
+
+    print(Fore.BLUE + "\nTransaction's values data overview :\n" + Style.RESET_ALL)
+    print(df['value'].describe())
     
-    # Plot transaction value over time
+
+    # Set the timestamp as the index
     df.set_index('timeStamp', inplace=True)
-    df['value'].plot(title='Transaction Value Over Time')
+
+    # Ensure there are no negative or extremely high values due to errors
+    df = df[df['value'] >= 0]
+
+    # Plot transaction value over time
+    plt.figure(figsize=(12, 6))
+    df['value'].plot()
+  # title='Transaction Value Over Time'
     plt.xlabel('Time')
-    plt.ylabel('Transaction Value (in Wei)')
+    plt.ylabel('Transaction Value')
+    plt.grid(True)
     plt.show()
 
-
-print(fetch_data('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae'))
+# Fetch and plot data for the given Ethereum address
+fetch_data('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae')
