@@ -22,4 +22,4 @@ def fetch_data(address):
     # Display the first few rows of the DataFrame
     print(df.head())
 
-(fetch_data('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae')
+print(fetch_data('0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae')
