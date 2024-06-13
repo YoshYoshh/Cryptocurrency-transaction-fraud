@@ -43,17 +43,15 @@ def fetch_total_transactions(api_key, start_block, end_block, batch_size=100):
                    transactions_by_day[date] = 0
                transactions_by_day[date] += transaction_count
 
-
        # Sleep to avoid hitting the rate limit
        sleep(1)
-
 
    return transactions_by_day
 
 
 def main():
-   # The API we created to fetch the data from Etherscan
-   api_key = 'JQMQPR9JN9NHN47PFIJHYRX57Z4BSFEPCB'
+   # We don't show our actual API key for security purposes
+   api_key = #API KEY
 
 
    # Define the start and end timestamps for January 2024
